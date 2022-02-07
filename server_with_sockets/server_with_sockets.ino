@@ -44,7 +44,7 @@ int dutyCycle1;
 int dutyCycle2;
 int dutyCycle3;
 
-bool lu_stepper_mode = 0;
+bool lu_stepper_state = 0;
 
 Stepper lu_stepper(STEPS, 19, 16, 17, 21);
 int stepperSpeed = 4000;
@@ -122,15 +122,19 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
       Serial.print(getSliderValues());
       notifyClients(getSliderValues());
     }
-    if (message.indexOf("lu_step") >= 0) {
-      if (lu_stepper_mode == 0) {
-        lu_stepper_mode = 1;
-        Serial.println("lu_stepper is on");
-      } else {
-        lu_stepper_mode = 0;
-        Serial.println("lu_stepper is off");
-      }
+    if (message.indexOf("lu_step_fw") >= 0) {
+      lu_stepper_state = 1;
+      Serial.println("lu_stepper forward");
     }
+    else if (message.indexOf("lu_step_bk") >= 0) {
+      lu_stepper_state = 2;
+      Serial.println("lu_stepper backward");
+    }
+    else if (message.indexOf("lu_step_st") >= 0) {
+      lu_stepper_state = 0;
+      Serial.println("lu_stepper stop");
+    }
+    
     if (strcmp((char*)data, "getValues") == 0) {
       notifyClients(getSliderValues());
     }
@@ -197,8 +201,17 @@ void loop() {
   ledcWrite(ledChannel1, dutyCycle1);
   ledcWrite(ledChannel2, dutyCycle2);
   ledcWrite(ledChannel3, dutyCycle3);
-  if (lu_stepper_mode == 1) {
-    lu_stepper.step(STEPS);
+  switch (lu_stepper_state) {
+    case 1:
+      lu_stepper.step(STEPS);
+      break;
+
+    case 2:
+      lu_stepper.step(-STEPS);
+      break;
+
+    default:
+      break;
   }
 
   ws.cleanupClients();
