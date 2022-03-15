@@ -22,8 +22,8 @@ const char *msg_get_ru_stepper = "getRU_StepperState";
 const int dns_port = 53;
 const int http_port = 80;
 const int ws_port = 1337;
-Stepper lu_stepper(STEPS, 19, 16, 17, 21);
-Stepper ru_stepper(STEPS, 36, 4, 5, 18);
+Stepper lu_stepper(STEPS, 12, 27, 33, 15);
+Stepper ru_stepper(STEPS, 32, 14, 22, 23);
 int stepper_speed = 4000;
 
 // Globals
