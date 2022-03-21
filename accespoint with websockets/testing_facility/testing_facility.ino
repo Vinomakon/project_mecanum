@@ -29,6 +29,8 @@ WebSocketsServer webSocket = WebSocketsServer(1337);
 char msg_buf[10];
 int lu_stepper_state = 0;
 int ru_stepper_state = 0;
+int ld_stepper_state = 0;
+int rd_stepper_state = 0;
 
 /***********************************************************
  * Functions
@@ -61,12 +63,38 @@ void onWebSocketEvent(uint8_t client_num,
     case WStype_TEXT:
       received_states = (char*)payload;
       // Print out raw message
-      Serial.printf("%s\n",(char*)payload);
-      Serial.printf("First toggle_state is: %d\n", received_states[0]);
-      
+      Serial.println("%s\n",(char*)payload);
+      Serial.println("First toggle_state is: %d\n", received_states[0]);
 
-      // Toggle LED
-      
+      if(strcmp((char *)payload, "getState") == 0) {
+        sprintf(msg_buf, "%d%d%d%d", lu_stepper_state, ru_stepper_state, ld_stepper_state, rd_stepper_state)
+      } else {
+
+        if(received_states[0] == 49) {
+          lu_stepper_state = 1;
+        } else {
+          lu_stepper_state = 0;
+        }
+        
+        if(received_states)[1] == 49) {
+          ru_stepper_state = 1;
+        } else {
+          ru_stepper_state = 0;
+        }
+
+        if(received_states)[2] == 49) {
+          ld_stepper_state = 1;
+        } else {
+          ld_stepper_state = 0;
+        }
+
+        if(received_states)[1] == 49) {
+          rd_stepper_state = 1;
+        } else {
+          rd_stepper_state = 0;
+        }
+        
+      }
       break;
 
     // For everything else: do nothing
