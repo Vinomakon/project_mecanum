@@ -63,11 +63,13 @@ void onWebSocketEvent(uint8_t client_num,
     case WStype_TEXT:
       received_states = (char*)payload;
       // Print out raw message
-      Serial.println("%s\n",(char*)payload);
-      Serial.println("First toggle_state is: %d\n", received_states[0]);
+      Serial.printf("%s\n\n",(char*)payload);
+      Serial.printf("First toggle_state is: %d\n\n", received_states[0]);
 
       if(strcmp((char *)payload, "getState") == 0) {
-        sprintf(msg_buf, "%d%d%d%d", lu_stepper_state, ru_stepper_state, ld_stepper_state, rd_stepper_state)
+        sprintf(msg_buf, "%d%d%d%d", lu_stepper_state, ru_stepper_state, ld_stepper_state, rd_stepper_state);
+        Serial.printf("Sending to [%u]: %s\n\n", client_num, msg_buf);
+        webSocket.sendTXT(client_num, msg_buf);
       } else {
 
         if(received_states[0] == 49) {
@@ -76,19 +78,19 @@ void onWebSocketEvent(uint8_t client_num,
           lu_stepper_state = 0;
         }
         
-        if(received_states)[1] == 49) {
+        if(received_states[1] == 49) {
           ru_stepper_state = 1;
         } else {
           ru_stepper_state = 0;
         }
 
-        if(received_states)[2] == 49) {
+        if(received_states[2] == 49) {
           ld_stepper_state = 1;
         } else {
           ld_stepper_state = 0;
         }
 
-        if(received_states)[1] == 49) {
+        if(received_states[3] == 49) {
           rd_stepper_state = 1;
         } else {
           rd_stepper_state = 0;
