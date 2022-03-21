@@ -89,22 +89,22 @@ function onMessage(evt) {
     
     // Update circle graphic with LED state
     switch(evt.data) {
-        case "00":
+        case evt.data[0] == 0:
             console.log("Upper Left Stepper is off");
             contextlu.fillStyle = "black";
             contextlu.fill();
             break;
-        case "01":
+        case evt.data[0] == 1:
             console.log("Upper Left Stepper is on");
             contextlu.fillStyle = "red";
             contextlu.fill();
             break;
-        case "10":
+        case evt.data[1] == 0:
             console.log("Upper Right Stepper is off");
             contextru.fillStyle = "black";
             contextru.fill();
             break;
-        case "11":
+        case evt.data[1] == 1:
             console.log("Upper Right Stepper is on");
             contextru.fillStyle = "red";
             contextru.fill();
