@@ -15,10 +15,7 @@
 // Constants
 const char *ssid = "ESP32-AP";
 const char *password =  "12345678";
-const char *msg_toggle_lu_stepper = "toggleLU_Stepper";
-const char *msg_get_lu_stepper = "getLU_StepperState";
-const char *msg_toggle_ru_stepper = "toggleRU_Stepper";
-const char *msg_get_ru_stepper = "getRU_StepperState";
+char *received_states;
 const int dns_port = 53;
 const int http_port = 80;
 const int ws_port = 1337;
@@ -62,35 +59,14 @@ void onWebSocketEvent(uint8_t client_num,
 
     // Handle text messages from client
     case WStype_TEXT:
-
+      received_states = (char*)payload;
       // Print out raw message
-      Serial.printf("[%u] Received text: %s\n", client_num, payload);
+      Serial.printf("%s\n",(char*)payload);
+      Serial.printf("First toggle_state is: %d\n", received_states[0]);
+      
 
       // Toggle LED
-      if ( strcmp((char *)payload, "toggleLU_Stepper") == 0 ) {
-        lu_stepper_state = !lu_stepper_state;
-        Serial.printf("Toggling LU_Stepper to %u\n", lu_stepper_state);
-
-      // Report the state of the LED
-      } else if ( strcmp((char *)payload, "getLU_StepperState") == 0 ) {
-        sprintf(msg_buf, "0%d", lu_stepper_state);
-        Serial.printf("Sending to [%u]: %s\n", client_num, msg_buf);
-        webSocket.sendTXT(client_num, msg_buf);
-
-      // Message not recognized
-      } else if ( strcmp((char *)payload, "toggleRU_Stepper") == 0 ) {
-        ru_stepper_state = !ru_stepper_state;
-        Serial.printf("Toggling LU_Stepper to %u\n", ru_stepper_state);
-
-      // Report the state of the LED
-      } else if ( strcmp((char *)payload, "getRU_StepperState") == 0 ) {
-        sprintf(msg_buf, "1%d", ru_stepper_state);
-        Serial.printf("Sending to [%u]: %s\n", client_num, msg_buf);
-        webSocket.sendTXT(client_num, msg_buf);
-        
-      } else {
-        Serial.println("[%u] Message not recognized");
-      }
+      
       break;
 
     // For everything else: do nothing

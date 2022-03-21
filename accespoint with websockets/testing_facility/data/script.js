@@ -123,17 +123,16 @@ function onError(evt) {
 function doSend(message) {
     console.log("Sending: " + message);
     websocket.send(message);
+    websocket.send("getState")
 }
 
 // Called whenever the HTML button is pressed
 function onPressLU() {
-    doSend("toggleLU_Stepper");
-    doSend("getLU_StepperState");
+    doSend("1000");
 }
 
 function onPressRU() {
-    doSend("toggleRU_Stepper");
-    doSend("getRU_StepperState");
+    doSend("0100");
 }
 
 // Call the init function as soon as the page loads
