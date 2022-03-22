@@ -3,7 +3,8 @@
 <title>WebSocket Test</title>
 
 <script>
-    var url = "ws://192.168.4.1:1337/";
+
+var url = "ws://192.168.4.1:1337/";
 var output;
 var buttonlu;
 var buttonru;
@@ -91,32 +92,54 @@ function onMessage(evt) {
 
     // Print out our received message
     console.log("Received: " + evt.data);
+    console.log("First state: " + String(evt.data)[0] + "... Second state: " + String(evt.data)[1]);
     
     // Update circle graphic with LED state
-    switch(evt.data) {
-        case "00":
+    /*switch(evt.data) {
+        case String(evt.data)[0] == "0":
             console.log("Upper Left Stepper is off");
             contextlu.fillStyle = "black";
             contextlu.fill();
             break;
-        case "01":
+        case String(evt.data)[0] == "1":
             console.log("Upper Left Stepper is on");
             contextlu.fillStyle = "red";
             contextlu.fill();
             break;
-        case "10":
+        case String(evt.data)[1] == "0":
             console.log("Upper Right Stepper is off");
             contextru.fillStyle = "black";
             contextru.fill();
             break;
-        case "11":
+        case String(evt.data)[1] == "1":
             console.log("Upper Right Stepper is on");
             contextru.fillStyle = "red";
             contextru.fill();
             break;
         default:
             break;
+    }*/
+
+    if(String(evt.data)[0] == "1") {
+        console.log("Upper Left Stepper is on");
+            contextlu.fillStyle = "red";
+            contextlu.fill();
+    } else {
+        console.log("Upper Left Stepper is off");
+            contextlu.fillStyle = "black";
+            contextlu.fill();
     }
+
+    if(String(evt.data)[1] == "1") {
+        console.log("Upper Right Stepper is on");
+            contextru.fillStyle = "red";
+            contextru.fill();
+    } else {
+        console.log("Upper Right Stepper is off");
+            contextru.fillStyle = "black";
+            contextru.fill();
+    }
+
 }
 
 // Called when a WebSocket error occurs
@@ -142,6 +165,7 @@ function onPressRU() {
 
 // Call the init function as soon as the page loads
 window.addEventListener("load", init, false);
+
 
 </script>
 

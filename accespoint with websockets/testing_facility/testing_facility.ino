@@ -31,6 +31,7 @@ int lu_stepper_state = 0;
 int ru_stepper_state = 0;
 int ld_stepper_state = 0;
 int rd_stepper_state = 0;
+int speed_multiply;
 
 /***********************************************************
  * Functions
@@ -179,9 +180,7 @@ void setup() {
   webSocket.onEvent(onWebSocketEvent);
   
 }
-
 void loop() {
-
   if(lu_stepper_state) {
     lu_stepper.step(STEPS);
   }
