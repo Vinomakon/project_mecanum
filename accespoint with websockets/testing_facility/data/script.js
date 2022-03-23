@@ -1,3 +1,4 @@
+
 var url = "ws://192.168.4.1:1337/";
 var output;
 var buttonlu;
@@ -86,31 +87,51 @@ function onMessage(evt) {
 
     // Print out our received message
     console.log("Received: " + evt.data);
+    console.log("First state: " + String(evt.data)[0] + "... Second state: " + String(evt.data)[1]);
     
     // Update circle graphic with LED state
-    switch(evt.data) {
-        case evt.data[0] == 0:
+    /*switch(evt.data) {
+        case String(evt.data)[0] == "0":
             console.log("Upper Left Stepper is off");
             contextlu.fillStyle = "black";
             contextlu.fill();
             break;
-        case evt.data[0] == 1:
+        case String(evt.data)[0] == "1":
             console.log("Upper Left Stepper is on");
             contextlu.fillStyle = "red";
             contextlu.fill();
             break;
-        case evt.data[1] == 0:
+        case String(evt.data)[1] == "0":
             console.log("Upper Right Stepper is off");
             contextru.fillStyle = "black";
             contextru.fill();
             break;
-        case evt.data[1] == 1:
+        case String(evt.data)[1] == "1":
             console.log("Upper Right Stepper is on");
             contextru.fillStyle = "red";
             contextru.fill();
             break;
         default:
             break;
+    }*/
+    if(String(evt.data)[0] == "1") {
+        console.log("Upper Left Stepper is on");
+            contextlu.fillStyle = "red";
+            contextlu.fill();
+    } else {
+        console.log("Upper Left Stepper is off");
+            contextlu.fillStyle = "black";
+            contextlu.fill();
+    }
+
+    if(String(evt.data)[1] == "1") {
+        console.log("Upper Right Stepper is on");
+            contextru.fillStyle = "red";
+            contextru.fill();
+    } else {
+        console.log("Upper Right Stepper is off");
+            contextru.fillStyle = "black";
+            contextru.fill();
     }
 }
 
@@ -137,3 +158,4 @@ function onPressRU() {
 
 // Call the init function as soon as the page loads
 window.addEventListener("load", init, false);
+

@@ -8,6 +8,8 @@ var url = "ws://192.168.4.1:1337/";
 var output;
 var buttonlu;
 var buttonru;
+var buttonstop;
+var buttonall;
 var canvaslu;
 var canvasru;
 var contextlu;
@@ -23,6 +25,10 @@ function init() {
 
     buttonru = document.getElementById("toggleRUButton");
     canvasru = document.getElementById("RU_stepper_state");
+
+    buttonstop = document.getElementById("toggleStopButton");
+    
+    buttonall = document.getElementById("toggleAllbutton");
     
     // Draw circle in canvas
     contextlu = canvaslu.getContext("2d");
@@ -67,10 +73,11 @@ function onOpen(evt) {
     // Enable button
     buttonlu.disabled = false;
     buttonru.disabled = false;
+    buttonall.disabled = false;
+    buttonstop.disabled = false;
     
     // Get the current state of the LED
-    doSend("getLU_StepperState");
-    doSend("getRU_StepperState");
+    doSend("getState")
 }
 
 // Called when the WebSocket connection is closed
@@ -82,7 +89,9 @@ function onClose(evt) {
     // Disable button
     buttonlu.disabled = true;
     buttonru.disabled = true;
-    
+    buttonall.disabled = true;
+    buttonstop.disabled = true;
+
     // Try to reconnect after a few seconds
     setTimeout(function() { wsConnect(url) }, 2000);
 }
@@ -139,7 +148,16 @@ function onMessage(evt) {
             contextru.fillStyle = "black";
             contextru.fill();
     }
-
+    
+    if(String(evt.data)[1] == "1") {
+        console.log("Upper Right Stepper is on");
+            contextru.fillStyle = "red";
+            contextru.fill();
+    } else {
+        console.log("Upper Right Stepper is off");
+            contextru.fillStyle = "black";
+            contextru.fill();
+    }
 }
 
 // Called when a WebSocket error occurs
@@ -163,6 +181,14 @@ function onPressRU() {
     doSend("0100");
 }
 
+function onPressStop() {
+    doSend("1000");
+}
+
+function onPressAll() {
+    doSend("1100");
+}
+
 // Call the init function as soon as the page loads
 window.addEventListener("load", init, false);
 
@@ -184,5 +210,22 @@ window.addEventListener("load", init, false);
     <tr>
         <td><button id="toggleRUButton" onclick="onPressRU()" disabled>Toggle RU_Stepper</button></td>
         <td><canvas id="RU_stepper_state" width="50" height="50"></canvas></td>
+    </tr>
+</table>
+
+<h2>All on</h2>
+
+<table>
+    <tr>
+        <td><button id="toggleAllButton" onclick="onPressAll()" disabled>Toggle All</button></td>
+    </tr>
+</table>
+
+<h2>All off</h2>
+
+<table>
+    <tr>
+        <td><button id="toggleStopButton" onclick="onPressStop()" disabled>Toggle Stop</button></td>
+        <td><canvas id="stop_stepper_state" width="50" height="50"></canvas></td>
     </tr>
 </table>
