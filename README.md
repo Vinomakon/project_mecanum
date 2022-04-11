@@ -18,4 +18,4 @@ Dies war und ist ein sechsmonatiges Schulprojekt, das die Fähigkeiten und Stär
 Diese Präsentationen werden dann benotet und zusammen mit dem Transkript anderen Schulen vorgelegt, die sie besuchen werden.
 Bitte beachten Sie, dass dieses Projekt sehr lange gedauert hat und von einem 15-Jährigen erstellt wurde. Wenn Sie also Programmierfehler oder andere veränderliche Dinge sehen, denken Sie daran, dass dies alles nicht als eine professionelle Arbeit gemacht wurde und nicht großartig sein sollte, sondern die Inspirationen eines/r Schülern/inn zu zeigen.
 
-Danke für dein Verständnis.
+Danke für ihr Verständnis.
