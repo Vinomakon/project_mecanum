@@ -64,7 +64,67 @@ void onWebSocketEvent(uint8_t client_num,
         webSocket.sendTXT(client_num, msg_buf);
       } else {
 
-        if(received_states[0] == 49) {
+        switch(received_states[0]) {
+          case 49:
+            
+            break;
+          case 50:
+            
+            break;
+          case 48:
+            
+            break;
+          default:
+            Serial.printf("\nERROR with states\n")
+            break;
+        }
+
+        switch(received_states[1]) {
+          case 49:
+            
+            break;
+          case 50:
+            
+            break;
+          case 48:
+            
+            break;
+          default:
+            Serial.printf("\nERROR with states\n")
+            break;
+        }
+
+        switch(received_states[2]) {
+          case 49:
+            
+            break;
+          case 50:
+            
+            break;
+          case 48:
+            
+            break;
+          default:
+            Serial.printf("\nERROR with states\n")
+            break;
+        }
+
+        switch(received_states[3]) {
+          case 49:
+            
+            break;
+          case 50:
+            
+            break;
+          case 48:
+            
+            break;
+          default:
+            Serial.printf("\nERROR with states\n")
+            break;
+        }
+        
+        /*if(received_states[0] == 49) {
           lu_state = 1;
         } else {
           lu_state = 0;
@@ -86,7 +146,7 @@ void onWebSocketEvent(uint8_t client_num,
           rd_state = 1;
         } else {
           rd_state = 0;
-        }
+        }*/
         
       }
       break;
