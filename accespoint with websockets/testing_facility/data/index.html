@@ -86,12 +86,6 @@ function onClose(evt) {
     // Log disconnection state
     console.log("Disconnected");
     
-    // Disable button
-    buttonlu.disabled = true;
-    buttonru.disabled = true;
-    buttonall.disabled = true;
-    buttonstop.disabled = true;
-
     // Try to reconnect after a few seconds
     setTimeout(function() { wsConnect(url) }, 2000);
 }
@@ -148,16 +142,6 @@ function onMessage(evt) {
             contextru.fillStyle = "black";
             contextru.fill();
     }
-    
-    if(String(evt.data)[1] == "1") {
-        console.log("Upper Right Stepper is on");
-            contextru.fillStyle = "red";
-            contextru.fill();
-    } else {
-        console.log("Upper Right Stepper is off");
-            contextru.fillStyle = "black";
-            contextru.fill();
-    }
 }
 
 // Called when a WebSocket error occurs
@@ -182,7 +166,7 @@ function onPressRU() {
 }
 
 function onPressStop() {
-    doSend("1000");
+    doSend("0000");
 }
 
 function onPressAll() {
@@ -199,7 +183,7 @@ window.addEventListener("load", init, false);
 
 <table>
     <tr>
-        <td><button id="toggleLUButton" onclick="onPressLU()" disabled>Toggle LU_Stepper</button></td>
+        <td><button id="toggleLUButton" onclick="onPressLU()" >Toggle LU_Stepper</button></td>
         <td><canvas id="LU_stepper_state" width="50" height="50"></canvas></td>
     </tr>
 </table>
@@ -208,7 +192,7 @@ window.addEventListener("load", init, false);
 
 <table>
     <tr>
-        <td><button id="toggleRUButton" onclick="onPressRU()" disabled>Toggle RU_Stepper</button></td>
+        <td><button id="toggleRUButton" onclick="onPressRU()" >Toggle RU_Stepper</button></td>
         <td><canvas id="RU_stepper_state" width="50" height="50"></canvas></td>
     </tr>
 </table>
@@ -217,7 +201,7 @@ window.addEventListener("load", init, false);
 
 <table>
     <tr>
-        <td><button id="toggleAllButton" onclick="onPressAll()" disabled>Toggle All</button></td>
+        <td><button id="toggleAllButton" onclick="onPressAll()" >Toggle All</button></td>
     </tr>
 </table>
 
@@ -225,7 +209,7 @@ window.addEventListener("load", init, false);
 
 <table>
     <tr>
-        <td><button id="toggleStopButton" onclick="onPressStop()" disabled>Toggle Stop</button></td>
+        <td><button id="toggleStopButton" onclick="onPressStop()" >Toggle Stop</button></td>
         <td><canvas id="stop_stepper_state" width="50" height="50"></canvas></td>
     </tr>
 </table>

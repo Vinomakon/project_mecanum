@@ -26,6 +26,16 @@ int lu_state = 0;
 int ru_state = 0;
 int ld_state = 0;
 int rd_state = 0;
+int state_update = false;
+
+int lu_forward = 19;
+int lu_backward = 16;
+int ru_forward = 21;
+int ru_backward = 17;
+int ld_forward = 32;
+int ld_backward = 14;
+int rd_forward = 23;
+int rd_backward = 22;
 
 /***********************************************************
  * Functions
@@ -66,88 +76,65 @@ void onWebSocketEvent(uint8_t client_num,
 
         switch(received_states[0]) {
           case 49:
-            
+            lu_state = 1;
             break;
           case 50:
-            
+            lu_state = 2;
             break;
           case 48:
-            
+            lu_state = 0;
             break;
           default:
-            Serial.printf("\nERROR with states\n")
+            Serial.printf("\nERROR with states\n");
             break;
         }
 
         switch(received_states[1]) {
           case 49:
-            
+            ru_state = 1;
             break;
           case 50:
-            
+            ru_state = 2;
             break;
           case 48:
-            
+            ru_state = 0;
             break;
           default:
-            Serial.printf("\nERROR with states\n")
+            Serial.printf("\nERROR with states\n");
             break;
         }
 
         switch(received_states[2]) {
           case 49:
-            
+            ld_state = 1;
             break;
           case 50:
-            
+            ld_state = 2;
             break;
           case 48:
-            
+            ld_state = 0;
             break;
           default:
-            Serial.printf("\nERROR with states\n")
+            Serial.printf("\nERROR with states\n");
             break;
         }
 
         switch(received_states[3]) {
           case 49:
-            
+            rd_state = 1;
             break;
           case 50:
-            
+            rd_state = 2;
             break;
           case 48:
-            
+            rd_state = 0;
             break;
           default:
-            Serial.printf("\nERROR with states\n")
+            Serial.printf("\nERROR with states\n");
             break;
         }
         
-        /*if(received_states[0] == 49) {
-          lu_state = 1;
-        } else {
-          lu_state = 0;
-        }
-        
-        if(received_states[1] == 49) {
-          ru_state = 1;
-        } else {
-          ru_state = 0;
-        }
-
-        if(received_states[2] == 49) {
-          ld_state = 1;
-        } else {
-          ld_state = 0;
-        }
-
-        if(received_states[3] == 49) {
-          rd_state = 1;
-        } else {
-          rd_state = 0;
-        }*/
-        
+        state_update = true;
       }
       break;
 
@@ -193,7 +180,14 @@ void onPageNotFound(AsyncWebServerRequest *request) {
 
 void setup() {
   // Init LED and turn off
-
+  pinMode(lu_forward, OUTPUT);
+  pinMode(lu_backward, OUTPUT);
+  pinMode(ru_forward, OUTPUT);
+  pinMode(ru_backward, OUTPUT);
+  pinMode(ld_forward, OUTPUT);
+  pinMode(ld_backward, OUTPUT);
+  pinMode(rd_forward, OUTPUT);
+  pinMode(rd_backward, OUTPUT);
   // Start Serial port
   Serial.begin(115200);
 
@@ -230,6 +224,72 @@ void setup() {
   
 }
 void loop() {
+
+  if (state_update){
+    
+    switch(lu_state) {
+      case 1:
+        digitalWrite(lu_forward, HIGH);
+        Serial.printf("LU is on");
+        break;
+      case 2:
+        digitalWrite(lu_backward, HIGH);
+        break;
+      case 0:
+        digitalWrite(lu_forward, LOW);
+        digitalWrite(lu_backward, LOW);
+        Serial.printf("LU is off");
+        break;
+      default:
+        break;
+    }
+
+    switch(ru_state) {
+      case 1:
+        digitalWrite(ru_forward, HIGH);
+        break;
+      case 2:
+        digitalWrite(ru_backward, HIGH);
+        break;
+      case 0:
+        digitalWrite(ru_forward, LOW);
+        digitalWrite(ru_backward, LOW);
+        break;
+      default:
+        break;
+    }
+
+    switch(ld_state) {
+      case 1:
+        digitalWrite(ld_forward, HIGH);
+        break;
+      case 2:
+        digitalWrite(ld_backward, HIGH);
+        break;
+      case 0:
+        digitalWrite(ld_forward, LOW);
+        digitalWrite(ld_backward, LOW);
+        break;
+      default:
+        break;
+    }
+
+    switch(rd_state) {
+      case 1:
+        digitalWrite(rd_forward, HIGH);
+        break;
+      case 2:
+        digitalWrite(rd_backward, HIGH);
+        break;
+      case 0:
+        digitalWrite(rd_forward, LOW);
+        digitalWrite(rd_backward, LOW);
+        break;
+      default:
+        break;
+    }
+    state_update = false;
+  }
   // Look for and handle WebSocket data
   webSocket.loop();
 }
