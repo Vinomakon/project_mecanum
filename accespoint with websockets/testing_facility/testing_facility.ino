@@ -8,9 +8,7 @@
 #include <SPIFFS.h>
 #include <ESPAsyncWebServer.h>
 #include <WebSocketsServer.h>
-#include <Stepper.h>
 
-#define STEPS (4)
 
 // Constants
 const char *ssid = "ESP32-AP";
@@ -19,19 +17,15 @@ char *received_states;
 const int dns_port = 53;
 const int http_port = 80;
 const int ws_port = 1337;
-Stepper lu_stepper(STEPS, 12, 27, 33, 15);
-Stepper ru_stepper(STEPS, 32, 14, 22, 23);
-int stepper_speed = 4000;
 
 // Globals
 AsyncWebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(1337);
 char msg_buf[10];
-int lu_stepper_state = 0;
-int ru_stepper_state = 0;
-int ld_stepper_state = 0;
-int rd_stepper_state = 0;
-int speed_multiply;
+int lu_state = 0;
+int ru_state = 0;
+int ld_state = 0;
+int rd_state = 0;
 
 /***********************************************************
  * Functions
@@ -63,38 +57,35 @@ void onWebSocketEvent(uint8_t client_num,
     // Handle text messages from client
     case WStype_TEXT:
       received_states = (char*)payload;
-      // Print out raw message
-      Serial.printf("%s\n\n",(char*)payload);
-      Serial.printf("First toggle_state is: %d\n\n", received_states[0]);
 
       if(strcmp((char *)payload, "getState") == 0) {
-        sprintf(msg_buf, "%d%d%d%d", lu_stepper_state, ru_stepper_state, ld_stepper_state, rd_stepper_state);
+        sprintf(msg_buf, "%d%d%d%d", lu_state, ru_state, ld_state, rd_state);
         Serial.printf("Sending to [%u]: %s\n\n", client_num, msg_buf);
         webSocket.sendTXT(client_num, msg_buf);
       } else {
 
         if(received_states[0] == 49) {
-          lu_stepper_state = 1;
+          lu_state = 1;
         } else {
-          lu_stepper_state = 0;
+          lu_state = 0;
         }
         
         if(received_states[1] == 49) {
-          ru_stepper_state = 1;
+          ru_state = 1;
         } else {
-          ru_stepper_state = 0;
+          ru_state = 0;
         }
 
         if(received_states[2] == 49) {
-          ld_stepper_state = 1;
+          ld_state = 1;
         } else {
-          ld_stepper_state = 0;
+          ld_state = 0;
         }
 
         if(received_states[3] == 49) {
-          rd_stepper_state = 1;
+          rd_state = 1;
         } else {
-          rd_stepper_state = 0;
+          rd_state = 0;
         }
         
       }
@@ -142,8 +133,6 @@ void onPageNotFound(AsyncWebServerRequest *request) {
 
 void setup() {
   // Init LED and turn off
-  lu_stepper.setSpeed(stepper_speed);
-  ru_stepper.setSpeed(stepper_speed);
 
   // Start Serial port
   Serial.begin(115200);
@@ -181,12 +170,6 @@ void setup() {
   
 }
 void loop() {
-  if(lu_stepper_state) {
-    lu_stepper.step(STEPS);
-  }
-  if(ru_stepper_state) {
-    ru_stepper.step(STEPS);
-  }
   // Look for and handle WebSocket data
   webSocket.loop();
 }
