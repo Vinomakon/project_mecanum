@@ -92,49 +92,63 @@ function onMessage(evt) {
     console.log("First state: " + String(evt.data)[0] + "... Second state: " + String(evt.data)[1]);
     
     // Update circle graphic with LED state
-    /*switch(evt.data) {
-        case String(evt.data)[0] == "0":
-            console.log("Upper Left Stepper is off");
-            contextlu.fillStyle = "black";
-            contextlu.fill();
+
+    switch (String(evt.data)[0]) {
+        case "1":
+            document.getElementById("lu_motor_state").src = "up.png";
+            console.log("changed lu motor state to up");
             break;
-        case String(evt.data)[0] == "1":
-            console.log("Upper Left Stepper is on");
-            contextlu.fillStyle = "red";
-            contextlu.fill();
+        case "2":
+            document.getElementById("lu_motor_state").src = "down.png";
             break;
-        case String(evt.data)[1] == "0":
-            console.log("Upper Right Stepper is off");
-            contextru.fillStyle = "black";
-            contextru.fill();
-            break;
-        case String(evt.data)[1] == "1":
-            console.log("Upper Right Stepper is on");
-            contextru.fillStyle = "red";
-            contextru.fill();
+        case "0":
+            document.getElementById("lu_motor_state").src = "neutral.png";
+            console.log("changed lu motor state to neutral");
             break;
         default:
-            break;
-    }*/
-
-    if(String(evt.data)[0] == "1") {
-        console.log("Upper Left Stepper is on");
-            contextlu.fillStyle = "red";
-            contextlu.fill();
-    } else {
-        console.log("Upper Left Stepper is off");
-            contextlu.fillStyle = "black";
-            contextlu.fill();
+            break; 
     }
 
-    if(String(evt.data)[1] == "1") {
-        console.log("Upper Right Stepper is on");
-            contextru.fillStyle = "red";
-            contextru.fill();
-    } else {
-        console.log("Upper Right Stepper is off");
-            contextru.fillStyle = "black";
-            contextru.fill();
+    switch (String(evt.data)[1]) {
+        case "1":
+            document.getElementById("ru_motor_state").src = "up.png";
+            break;
+        case "2":
+            document.getElementById("ru_motor_state").src = "down.png";
+            break;
+        case "0":
+            document.getElementById("ru_motor_state").src = "neutral.png";
+            break;
+        default:
+            break; 
+    }
+
+    switch (String(evt.data)[2]) {
+        case "1":
+            document.getElementById("ld_motor_state").src = "up.png";
+            break;
+        case "2":
+            document.getElementById("ld_motor_state").src = "down.png";
+            break;
+        case "0":
+            document.getElementById("ld_motor_state").src = "neutral.png";
+            break;
+        default:
+            break; 
+    }
+
+    switch (String(evt.data)[3]) {
+        case "1":
+            document.getElementById("rd_motor_state").src = "up.png";
+            break;
+        case "2":
+            document.getElementById("rd_motor_state").src = "down.png";
+            break;
+        case "0":
+            document.getElementById("rd_motor_state").src = "neutral.png";
+            break;
+        default:
+            break; 
     }
 }
 
@@ -164,7 +178,7 @@ function onPressStop() {
 }
 
 function onPressAll() {
-    doSend("1100");
+    doSend("1111");
 }
 
 // Call the init function as soon as the page loads

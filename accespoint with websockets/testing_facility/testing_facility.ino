@@ -28,12 +28,12 @@ int ld_state = 0;
 int rd_state = 0;
 int state_update = false;
 
-int lu_forward = 19;
-int lu_backward = 16;
+int lu_forward = 16;
+int lu_backward = 19;
 int ru_forward = 21;
 int ru_backward = 17;
-int ld_forward = 32;
-int ld_backward = 14;
+int ld_forward = 14;
+int ld_backward = 32;
 int rd_forward = 23;
 int rd_backward = 22;
 
@@ -170,14 +170,35 @@ void onScriptRequest(AsyncWebServerRequest *request) {
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/style.css", "text/js");
+  request->send(SPIFFS, "/script.js", "text/js");
 }
 
-void onPictureRequest(AsyncWebServerRequest *request) {
+void onCarPictureRequest(AsyncWebServerRequest *request) {
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] HTTP GET request of " + request->url());
   request->send(SPIFFS, "/car_picture.png", "image/png");
+}
+
+void onNeutralStateRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/neutral.png", "image/png");
+}
+
+void onUpStateRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/up.png", "image/png");
+}
+
+void onDownStateRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/down.png", "image/png");
 }
 
 // Callback: send 404 if requested file does not exist
@@ -227,7 +248,10 @@ void setup() {
   server.on("/style.css", HTTP_GET, onCSSRequest);
   server.on("/script.js", HTTP_GET, onScriptRequest);
 
-  server.on("/car_picture.png", HTTP_GET, onPictureRequest);
+  server.on("/car_picture.png", HTTP_GET, onCarPictureRequest);
+  server.on("/neutral.png", HTTP_GET, onNeutralStateRequest);
+  server.on("/up.png", HTTP_GET, onUpStateRequest);
+  server.on("/down.png", HTTP_GET, onDownStateRequest);
 
   // Handle requests for pages that do not exist
   server.onNotFound(onPageNotFound);
