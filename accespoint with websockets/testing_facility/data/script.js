@@ -1,8 +1,9 @@
-
 var url = "ws://192.168.4.1:1337/";
 var output;
 var buttonlu;
 var buttonru;
+var buttonstop;
+var buttonall;
 var canvaslu;
 var canvasru;
 var contextlu;
@@ -18,6 +19,10 @@ function init() {
 
     buttonru = document.getElementById("toggleRUButton");
     canvasru = document.getElementById("RU_stepper_state");
+
+    buttonstop = document.getElementById("toggleStopButton");
+    
+    buttonall = document.getElementById("toggleAllbutton");
     
     // Draw circle in canvas
     contextlu = canvaslu.getContext("2d");
@@ -62,10 +67,11 @@ function onOpen(evt) {
     // Enable button
     buttonlu.disabled = false;
     buttonru.disabled = false;
+    buttonall.disabled = false;
+    buttonstop.disabled = false;
     
     // Get the current state of the LED
-    doSend("getLU_StepperState");
-    doSend("getRU_StepperState");
+    doSend("getState")
 }
 
 // Called when the WebSocket connection is closed
@@ -73,10 +79,6 @@ function onClose(evt) {
 
     // Log disconnection state
     console.log("Disconnected");
-    
-    // Disable button
-    buttonlu.disabled = true;
-    buttonru.disabled = true;
     
     // Try to reconnect after a few seconds
     setTimeout(function() { wsConnect(url) }, 2000);
@@ -114,6 +116,7 @@ function onMessage(evt) {
         default:
             break;
     }*/
+
     if(String(evt.data)[0] == "1") {
         console.log("Upper Left Stepper is on");
             contextlu.fillStyle = "red";
@@ -156,6 +159,13 @@ function onPressRU() {
     doSend("0100");
 }
 
+function onPressStop() {
+    doSend("0000");
+}
+
+function onPressAll() {
+    doSend("1100");
+}
+
 // Call the init function as soon as the page loads
 window.addEventListener("load", init, false);
-

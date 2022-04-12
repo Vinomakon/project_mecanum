@@ -166,6 +166,20 @@ void onCSSRequest(AsyncWebServerRequest *request) {
   request->send(SPIFFS, "/style.css", "text/css");
 }
 
+void onScriptRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/style.css", "text/js");
+}
+
+void onPictureRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/car_picture.png", "image/png");
+}
+
 // Callback: send 404 if requested file does not exist
 void onPageNotFound(AsyncWebServerRequest *request) {
   IPAddress remote_ip = request->client()->remoteIP();
@@ -211,6 +225,9 @@ void setup() {
 
   // On HTTP request for style sheet, provide style.css
   server.on("/style.css", HTTP_GET, onCSSRequest);
+  server.on("/script.js", HTTP_GET, onScriptRequest);
+
+  server.on("/car_picture.png", HTTP_GET, onPictureRequest);
 
   // Handle requests for pages that do not exist
   server.onNotFound(onPageNotFound);
