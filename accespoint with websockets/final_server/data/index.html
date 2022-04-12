@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+
+<script src="script.js"></script>
+
+<style>
+.floated-imgs {
+
+    float: right;
+}
+
+.car {
+    display: flex;
+    flex: row;
+    flex-wrap: none;
+}
+
+.car-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: none;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: none;
+}
+
+.button-row {
+    height: 256px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: none;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: none;
+}
+ 
+.car-states{
+    margin: 0 auto;
+    width: 366px;
+}
+
+.button-align {
+    padding-top: 44px;
+    margin: 0 auto;
+    width: 128px;
+}
+
+</style>
+
+<div class="button-row">
+    <div class="button-align">
+        <button type="button"> <img src="diagonal_lu.png" height="128" width="128" onclick="diagonal_lu()"> </button>
+    </div>
+    <div class="button-align">
+        <button type="button"> <img src="forward.png" height="128" width="128" onclick="forward()"> </button>
+    </div>
+    <div class="button-align">
+        <button type="button"> <img src="diagonal_ru.png" height="128" width="128" onclick="diagonal_ru()"> </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="button-align">
+        <button type="button"> <img src="left.png" height="128" width="128" onclick="left()"> </button>
+    </div>
+
+    <div class="car-states">
+        <div class="car-row">
+            <div class="column">
+                <div>
+                    <img src="neutral.png" height="108" width="89" id="lu_motor_state">
+                </div>
+                <div>
+                    <img src="neutral.png" height="108" width="89" id="ld_motor_state">
+                </div>
+            </div>
+            <div>
+                <img  src="car_picture.png" width="188" height="216" class="picture">
+            </div>
+            <div class="column">
+                <div>
+                    <img src="neutral.png" height="108" width="89" id="ru_motor_state">
+                </div>
+                <div>
+                    <img src="neutral.png" height="108" width="89" id="rd_motor_state">
+                </div>
+            </div> 
+        </div>
+    </div>
+    <div class="button-align">
+        <button type="button"> <img src="right.png" height="128" width="128" onclick="right()"> </button>
+    </div>
+</div>
+
+<div class="button-row">
+    <div class="button-align">
+        <button type="button"> <img src="diagonal_ld.png" height="128" width="128" onclick="diagonal_ld()"> </button>
+    </div>
+    <div class="button-align">
+        <button type="button"> <img src="backward.png" height="128" width="128" onclick="backward()"> </button>
+    </div>
+    <div class="button-align">
+        <button type="button"> <img src="diagonal_rd.png" height="128" width="128" onclick="diagonal_rd()"> </button>
+    </div>
+</div>
+
+<div class="button-row">
+    <div class="button-align">
+        <button type="button"> <img src="rotate_ccw.png" height="128" width="128" onclick="rotate_ccw()"> </button>
+    </div>
+    <div class="button-align">
+        <button type="button"> <img src="stop.png" height="128" width="128" onclick="stop()"> </button>
+    </div>
+    <div class="button-align">
+        <button type="button"> <img src="rotate_cw.png" height="128" width="128" onclick="rotate_cw()"> </button>
+    </div>
+</div>

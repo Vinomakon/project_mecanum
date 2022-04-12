@@ -201,6 +201,83 @@ void onDownStateRequest(AsyncWebServerRequest *request) {
   request->send(SPIFFS, "/down.png", "image/png");
 }
 
+void onForwardRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/forward.png", "image/png");
+}
+
+void onBackwardRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/backward.png", "image/png");
+}
+
+void onRightRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/right.png", "image/png");
+}
+
+void onLeftRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/left.png", "image/png");
+}
+
+void onDLURequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/diagonal_lu.png", "image/png");
+}
+
+void onDRURequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/diagonal_ru.png", "image/png");
+}
+
+void onDLDRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/diagonal_ld.png", "image/png");
+}
+
+void onDRDRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/diagonal_rd.png", "image/png");
+}
+
+void onRCWRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/rotate_cw.png", "image/png");
+}
+
+void onRCCWRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/rotate_ccw.png", "image/png");
+}
+
+void onStopRequest(AsyncWebServerRequest *request) {
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/stop.png", "image/png");
+}
+
 // Callback: send 404 if requested file does not exist
 void onPageNotFound(AsyncWebServerRequest *request) {
   IPAddress remote_ip = request->client()->remoteIP();
@@ -252,6 +329,18 @@ void setup() {
   server.on("/neutral.png", HTTP_GET, onNeutralStateRequest);
   server.on("/up.png", HTTP_GET, onUpStateRequest);
   server.on("/down.png", HTTP_GET, onDownStateRequest);
+  
+  server.on("/forward.png", HTTP_GET, onForwardRequest);
+  server.on("/backward.png", HTTP_GET, onBackwardRequest);
+  server.on("/right.png", HTTP_GET, onRightRequest);
+  server.on("/left.png", HTTP_GET, onLeftRequest);
+  server.on("/diagonal_lu.png", HTTP_GET, onDLURequest);
+  server.on("/diagonal_ru.png", HTTP_GET, onDRURequest);
+  server.on("/diagonal_ld.png", HTTP_GET, onDLDRequest);
+  server.on("/diagonal_rd.png", HTTP_GET, onDRDRequest);
+  server.on("/rotate_cw.png", HTTP_GET, onRCWRequest);
+  server.on("/rotate_ccw.png", HTTP_GET, onRCCWRequest);
+  server.on("/stop.png", HTTP_GET, onStopRequest);
 
   // Handle requests for pages that do not exist
   server.onNotFound(onPageNotFound);
@@ -267,6 +356,15 @@ void setup() {
 void loop() {
 
   if (state_update){
+
+    digitalWrite(lu_forward, LOW);
+    digitalWrite(lu_backward, LOW);
+    digitalWrite(ru_forward, LOW);
+    digitalWrite(ru_backward, LOW);
+    digitalWrite(ld_forward, LOW);
+    digitalWrite(ld_backward, LOW);
+    digitalWrite(rd_forward, LOW);
+    digitalWrite(rd_backward, LOW);
     
     switch(lu_state) {
       case 1:

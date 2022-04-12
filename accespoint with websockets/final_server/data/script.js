@@ -1,47 +1,8 @@
 var url = "ws://192.168.4.1:1337/";
 var output;
-var buttonlu;
-var buttonru;
-var buttonstop;
-var buttonall;
-var canvaslu;
-var canvasru;
-var contextlu;
-var contextru;
 
 // This is called when the page finishes loading
 function init() {
-
-    // Assign page elements to variables
-    buttonlu = document.getElementById("toggleLUButton");
-    output = document.getElementById("output");
-    canvaslu = document.getElementById("LU_stepper_state");
-
-    buttonru = document.getElementById("toggleRUButton");
-    canvasru = document.getElementById("RU_stepper_state");
-
-    buttonstop = document.getElementById("toggleStopButton");
-    
-    buttonall = document.getElementById("toggleAllbutton");
-    
-    // Draw circle in canvas
-    contextlu = canvaslu.getContext("2d");
-    contextlu.arc(25, 25, 15, 0, Math.PI * 2, false);
-    contextlu.lineWidth = 3;
-    contextlu.strokeStyle = "black";
-    contextlu.stroke();
-    contextlu.fillStyle = "black";
-    contextlu.fill();
-
-    contextru = canvasru.getContext("2d");
-    contextru.arc(25, 25, 15, 0, Math.PI * 2, false);
-    contextru.lineWidth = 3;
-    contextru.strokeStyle = "black";
-    contextru.stroke();
-    contextru.fillStyle = "black";
-    contextru.fill();
-    
-    // Connect to WebSocket server
     wsConnect(url);
 }
 
@@ -63,14 +24,7 @@ function onOpen(evt) {
 
     // Log connection state
     console.log("Connected");
-    
-    // Enable button
-    buttonlu.disabled = false;
-    buttonru.disabled = false;
-    buttonall.disabled = false;
-    buttonstop.disabled = false;
-    
-    // Get the current state of the LED
+
     doSend("getState")
 }
 
@@ -165,20 +119,48 @@ function doSend(message) {
 }
 
 // Called whenever the HTML button is pressed
-function onPressLU() {
-    doSend("1000");
+function diagonal_lu() {
+    doSend("0110");
 }
 
-function onPressRU() {
-    doSend("0100");
+function forward() {
+    doSend("1111");
 }
 
-function onPressStop() {
+function diagonal_ru() {
+    doSend("1001");
+}
+
+function left() {
+    doSend("2112");
+}
+
+function right() {
+    doSend("1221");
+}
+
+function diagonal_ld() {
+    doSend("2002");
+}
+
+function backward() {
+    doSend("2222");
+}
+
+function diagonal_rd() {
+    doSend("0220");
+}
+
+function rotate_ccw() {
+    doSend("2121");
+}
+
+function stop() {
     doSend("0000");
 }
 
-function onPressAll() {
-    doSend("1111");
+function rotate_cw() {
+    doSend("1212");
 }
 
 // Call the init function as soon as the page loads
