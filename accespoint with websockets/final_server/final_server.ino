@@ -28,14 +28,14 @@ int ld_state = 0;
 int rd_state = 0;
 int state_update = false;
 
-int lu_forward = 16;
-int lu_backward = 19;
-int ru_forward = 21;
-int ru_backward = 17;
-int ld_forward = 14;
-int ld_backward = 32;
-int rd_forward = 23;
-int rd_backward = 22;
+int lu_forward = 22;
+int lu_backward = 23;
+int ru_forward = 32;
+int ru_backward = 14;
+int ld_forward = 17;
+int ld_backward = 21;
+int rd_forward = 19;
+int rd_backward = 16;
 
 /***********************************************************
  * Functions
